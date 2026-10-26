@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SecureCode-Audit</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="hero">
+        <p class="eyebrow">Local authentication demo</p>
+        <h1>SecureCode-Audit</h1>
+        <p class="subtitle">
+          Register and authenticate a demo user using salted PBKDF2 hashing and
+          parameterized SQLite queries.
+        </p>
+      </header>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="messages">
+            {% for category, message in messages %}
+              <div class="message {{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <section class="panel-grid">
+        <div class="panel">
+          <h2>Register</h2>
+          <form method="post" action="{{ url_for('register') }}">
+            <label>
+              Username
+              <input type="text" name="username" maxlength="32" placeholder="demo_user" required />
+            </label>
+            <label>
+              Password
+              <input type="password" name="password" minlength="12" maxlength="128" placeholder="At least 12 characters" required />
+            </label>
+            <button type="submit">Create account</button>
+          </form>
+        </div>
+
+        <div class="panel">
+          <h2>Login</h2>
+          <form method="post" action="{{ url_for('login') }}">
+            <label>
+              Username
+              <input type="text" name="username" maxlength="32" placeholder="demo_user" required />
+            </label>
+            <label>
+              Password
+              <input type="password" name="password" minlength="12" maxlength="128" placeholder="Your password" required />
+            </label>
+            <button type="submit">Sign in</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="info">
+        <h2>Required environment</h2>
+        <ul>
+          <li>Set <code>SECURECODE_AUDIT_PEPPER</code> to a secret of at least 32 characters.</li>
+          <li>Use the same database path and pepper for each session you want to share.</li>
+          <li>Keep the app local-only; this is a demonstration, not a production identity system.</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

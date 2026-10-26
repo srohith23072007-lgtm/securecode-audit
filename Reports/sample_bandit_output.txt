@@ -1,0 +1,47 @@
+Sample output (representative; actual Bandit formatting varies by version)
+
+> python "Security Tools\run_security_scan.py"
+
+[main]  INFO    profile include tests: None
+[main]  INFO    profile exclude tests: None
+[main]  INFO    cli include tests: None
+[main]  INFO    cli exclude tests: None
+[main]  INFO    Using Python 3.x.x
+Run started: YYYY-MM-DD HH:MM:SS
+
+Test results:
+        No issues identified.
+
+Code scanned:
+        Total lines of code: 201
+        Total issues: 0
+
+Sample test-only findings (abbreviated):
+
+> python "Security Tools\run_security_scan.py" --include-test-only
+
+>> Issue: [B105:hardcoded_password_string] Possible hardcoded password: 'FAKE-TEST-ONLY-NOT-A-CREDENTIAL'
+   Severity: Low   Confidence: Medium
+   Location: Test Cases/fixtures/vulnerable_demo.py
+
+>> Issue: [B324:hashlib] Use of weak MD5 hash for password hashing
+   Severity: High   Confidence: High
+   Location: Test Cases/fixtures/vulnerable_demo.py
+
+>> Issue: [B608:hardcoded_sql_expressions] Possible SQL injection vector through string-based query construction
+   Severity: Medium   Confidence: Low
+   Location: Test Cases/fixtures/vulnerable_demo.py
+
+>> Issue: [B110:try_except_pass] Try, Except, Pass detected
+   Severity: Low   Confidence: High
+   Location: Test Cases/fixtures/vulnerable_demo.py
+
+Test-only scan summary:
+        Total lines of code: 224
+        Total issues: 4 (Low: 2, Medium: 1, High: 1)
+        The command returns exit code 1 because findings were detected.
+
+Interpretation:
+- The default production scan is the post-remediation result that matters for the application.
+- The second command deliberately scans the test-only examples; warnings are expected and its non-zero exit status confirms Bandit found issues.
+- Bandit rule identifiers, exact locations, and formatting may vary by installed version. Review actual output rather than assuming this sample is byte-for-byte identical.
